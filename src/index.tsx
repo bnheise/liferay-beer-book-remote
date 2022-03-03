@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import "@clayui/css/lib/css/atlas.css";
+
+const spritemap =
+  "https://cdn.jsdelivr.net/npm/@clayui/css/lib/images/icons/icons.svg";
 
 ReactDOM.render(
   <React.StrictMode>
