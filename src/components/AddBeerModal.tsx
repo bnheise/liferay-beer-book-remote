@@ -22,19 +22,16 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
 
     const handleSubmission = async () => {
         try {
-            console.log(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`)
-            console.log(formData)
             const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
                 headers: {
                     "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
                 }
             });
-            console.log(response.data)
-            setData([...data, response.data.items])
+            setData([...data, response.data])
         } catch (error) {
             let message
             if (error instanceof Error) message = error.message
-            console.log(message)
+            console.error(message)
         }
     };
 
