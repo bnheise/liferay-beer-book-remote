@@ -16,11 +16,11 @@ interface Style {
 export const emptyBeer: NewBeer = {
   brewer: "",
   name: "",
-  eBC: -1,
-  iBU: -1,
-  aBV: -1,
+  eBC: 0,
+  iBU: 0,
+  aBV: 0,
   style: { key: "" },
-  price: -1,
+  price: 0,
   imageUrl: "",
 };
 

@@ -21,12 +21,17 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
     const [formData, setFormData] = useState<NewBeer>(emptyBeer);
 
     const handleSubmission = async () => {
+        try {
+            console.log(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers?p_auth=${Liferay.authToken}`)
+            console.log(formData)
+            const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers?p_auth=${Liferay.authToken}`, {
+                formData
+            });
+            setData([...data, response.data.items])
+        } catch (error) {
+            console.log(error)
+        }
 
-        const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers?p_auth=${Liferay.authToken}`, {
-            formData
-        });
-        console.log(response.data.items)
-        setData([...data, response.data.items])
         // const formData = new FormData();
 
         // formData.append('File', selectedFile);
