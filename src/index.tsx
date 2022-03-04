@@ -14,9 +14,17 @@ declare global {
 }
 
 const renderApp = (container: HTMLElement | null) => {
+  let liferay;
+  try {
+    liferay = { Liferay };
+  } catch (e) {
+    console.log("HERE")
+    liferay = { Liferay: {} }
+  }
+  console.log(liferay)
   return ReactDOM.render(
     <React.StrictMode>
-      <App />
+      <App Liferay={liferay} />
     </React.StrictMode>
     , container
   )
