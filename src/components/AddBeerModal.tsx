@@ -3,7 +3,7 @@ import ClayButton from "@clayui/button";
 import ClayModal, { useModal } from "@clayui/modal";
 import AddBeerForm from "./AddBeerForm";
 import { emptyBeer, NewBeer } from "../dto/newBeerForm";
-import axios from 'axios';
+import axios from "axios";
 
 type Props = {
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,7 +13,13 @@ type Props = {
     setData: React.Dispatch<any>;
 };
 
-const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) => {
+const AddBeerModal = ({
+    Liferay,
+    setVisible,
+    visible,
+    data,
+    setData,
+}: Props) => {
     const { observer, onClose } = useModal({
         onClose: () => setVisible(false),
     });
@@ -25,48 +31,43 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
     const handleSubmission = async () => {
         if (selectedFile) {
             const repoId = 20125;
-            const folderId = 0;
+            let dataToSend = new FormData();
             const name = formData.name.replace(" ", "_") + "_img";
-            const bytes = await selectedFile.arrayBuffer()
-            const dataToSend = {
-                repositoryId: 20125,
-                folderId: folderId,
-                sourceFileName: selectedFile?.name,
-                mimeType: selectedFile?.type,
-                title: name,
-                description: `Product image for ${formData.name}`,
-                changeLog: '',
-                file: bytes
+            const folderId = "0";
+            dataToSend.append("file", selectedFile);
+            dataToSend.append("repositoryId", "20125");
+            dataToSend.append("folderId", folderId);
+            dataToSend.append("mimeType", selectedFile?.type);
+            dataToSend.append("title", name);
+            dataToSend.append("sourceFileName", selectedFile?.name);
+            dataToSend.append("description", `Product image for ${formData.name}`);
+            dataToSend.append("changeLog", "");
+            const headers = {
+                "Content-Type": "multipart/form-data",
+                accept: "application/json",
+                "x-csrf-token": Liferay.authToken,
+            };
+
+            try {
+                const imageData: any = await axios.post(
+                    `${Liferay?.ThemeDisplay?.getPortalURL()}api/jsonws/dlapp/add-file-entry`,
+                    formData,
+                    {
+                        headers,
+                    }
+                );
+                const uuid = imageData?.uuid;
+                formData.imageUrl = `${Liferay?.ThemeDisplay?.getPortalURL()}/documents/${repoId}/${folderId}/${name}/${uuid}`
+                const result = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
+                    headers: {
+                        "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
+                    }
+                });
+                console.log(result);
+            } catch (error) {
+                console.error(error);
             }
-            console.log(dataToSend)
-            Liferay.Service(
-                '/dlapp/add-file-entry',
-                dataToSend,
-                function (response: any) {
-                    console.log(response);
-                    const uuid = response?.uuid;
-
-
-                    formData.imageUrl = `${Liferay?.ThemeDisplay?.getPortalURL()}/documents/${repoId}/${folderId}/${name}/${uuid}`
-                    axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
-                        headers: {
-                            "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
-                        }
-                    }).then((nextRepsone: any) => {
-                        console.log("DATA returned", data, nextRepsone.data)
-                        setData([...data, nextRepsone.data])
-                    }).catch((error: any) => {
-                        console.log(error)
-                    })
-                },
-                function (error: any) {
-                    console.log("THERE WAS AN ERROR")
-                    console.log(error)
-                }
-
-            );
         }
-
     };
 
     return (
@@ -80,12 +81,23 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
                 >
                     <ClayModal.Header>{"Add a new beer"}</ClayModal.Header>
                     <ClayModal.Body>
-                        <AddBeerForm selectedFile={selectedFile} setSelectedFile={setSelectedFile} isFilePicked={isFilePicked} setIsFilePicked={setIsFilePicked} Liferay={Liferay} formData={formData} setFormData={setFormData} handleSubmission={handleSubmission} />
+                        <AddBeerForm
+                            selectedFile={selectedFile}
+                            setSelectedFile={setSelectedFile}
+                            isFilePicked={isFilePicked}
+                            setIsFilePicked={setIsFilePicked}
+                            Liferay={Liferay}
+                            formData={formData}
+                            setFormData={setFormData}
+                            handleSubmission={handleSubmission}
+                        />
                     </ClayModal.Body>
                     <ClayModal.Footer
                         last={
                             <ClayButton.Group spaced>
-                                <ClayButton onClick={onClose} displayType="secondary">{"Cancel"}</ClayButton>
+                                <ClayButton onClick={onClose} displayType="secondary">
+                                    {"Cancel"}
+                                </ClayButton>
                                 <ClayButton onClick={handleSubmission}>{"Submit"}</ClayButton>
                             </ClayButton.Group>
                         }
@@ -94,5 +106,5 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
             )}
         </>
     );
-}
+};
 export default AddBeerModal;
