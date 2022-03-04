@@ -43,7 +43,6 @@ const AddBeerModal = ({
             dataToSend.append("description", `Product image for ${formData.name}`);
             dataToSend.append("changeLog", "");
             const headers = {
-                "Content-Type": "multipart/form-data",
                 accept: "application/json",
                 "x-csrf-token": Liferay.authToken,
             };
@@ -60,7 +59,7 @@ const AddBeerModal = ({
                     }
                 );
                 console.log(imageData)
-                const uuid = imageData?.uuid;
+                const uuid = imageData.data?.uuid;
                 console.log(uuid)
                 formData.imageUrl = `/documents/${repoId}/${folderId}/${name}/${uuid}`
                 const result = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
