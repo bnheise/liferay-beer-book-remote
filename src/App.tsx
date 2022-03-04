@@ -12,14 +12,13 @@ function App() {
     if (process.env.NODE_ENV === "development") {
       import('./dummyData/dummy.json')
         .then((json) => {
-          console.log(json)
           setData(json.items);
         });
     }
   })
 
   const { resource } = useResource({
-    link: "http://test%40liferay.com:test@localhost:8080/o/c/beers?p_auth=S7RZL9hL"
+    link: "/o/c/beers?p_auth=S7RZL9hL"
   });
 
   if (resource) setData(resource.items);
