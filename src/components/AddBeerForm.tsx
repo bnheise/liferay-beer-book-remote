@@ -73,7 +73,7 @@ const AddBeerForm = (props: Props) => {
                 {
                     listTypeDefinitionId: 43845,
                     start: 0,
-                    end: 2
+                    end: 100,
                 },
                 function (response: ListType[]) {
                     setStyleOptions(response.map(item => ({ value: item.key, label: item.nameCurrentValue })));
