@@ -29,7 +29,9 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
             });
             setData([...data, response.data.items])
         } catch (error) {
-            console.log(error)
+            let message
+            if (error instanceof Error) message = error.message
+            console.log(message)
         }
 
         // const formData = new FormData();
