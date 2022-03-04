@@ -5,6 +5,7 @@ import ClayCard from '@clayui/card';
 import ClayLayout from '@clayui/layout';
 import ClayButton from '@clayui/button';
 import AddBeerModal from './components/AddBeerModal';
+import axios from 'axios';
 
 interface Props {
   Liferay: any;
@@ -20,15 +21,21 @@ function App({ Liferay }: Props) {
         });
     }
   })
-  const urlBase = Liferay?.ThemeDisplay?.getPortalURL() || "http://localhost:8080";
-  const { resource } = useResource({
-
-    link: `${urlBase}/o/c/beers?p_auth=${Liferay.authToken}`
-  });
 
   useEffect(() => {
-    if (resource) setData(resource.items);
-  }, [resource])
+    if (process.env.NODE_ENV === "development") {
+      import('./dummyData/dummy.json')
+        .then((json) => {
+          setData(json.items);
+        });
+    } else {
+      const getBeers = async () => {
+        const response = await axios.get(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers?p_auth=${Liferay.authToken}`)
+        setData(response);
+      };
+      getBeers();
+    }
+  }, [Liferay])
   console.log(data)
   return (
     <ClayLayout.ContainerFluid view>
