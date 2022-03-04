@@ -49,15 +49,18 @@ const AddBeerModal = ({
             };
 
             try {
+                const imagePostUrl = `${Liferay?.ThemeDisplay?.getPortalURL()}/api/jsonws/dlapp/add-file-entry`;
+                console.log("image post url", imagePostUrl)
+                console.log("data to send", dataToSend)
                 const imageData: any = await axios.post(
-                    `${Liferay?.ThemeDisplay?.getPortalURL()}api/jsonws/dlapp/add-file-entry`,
+                    imagePostUrl,
                     formData,
                     {
                         headers,
                     }
                 );
                 const uuid = imageData?.uuid;
-                formData.imageUrl = `${Liferay?.ThemeDisplay?.getPortalURL()}/documents/${repoId}/${folderId}/${name}/${uuid}`
+                formData.imageUrl = `/documents/${repoId}/${folderId}/${name}/${uuid}`
                 const result = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
                     headers: {
                         "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
