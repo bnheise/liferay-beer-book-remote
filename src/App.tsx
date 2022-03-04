@@ -21,7 +21,9 @@ function App() {
     link: `${Liferay?.ThemeDisplay.getPortalURL()}/o/c/beers?p_auth=${Liferay.authToken}`
   });
 
-  if (resource) setData(resource.items);
+  useEffect(() => {
+    if (resource) setData(resource.items);
+  }, [resource])
 
   return (
     <ClayLayout.ContainerFluid view>
