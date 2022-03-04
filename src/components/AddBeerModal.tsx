@@ -25,7 +25,7 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
         const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers?p_auth=${Liferay.authToken}`, {
             formData
         });
-        console.log(response)
+        console.log(response.data.items)
         setData([...data, response.data.items])
         // const formData = new FormData();
 
