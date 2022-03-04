@@ -23,7 +23,7 @@ function App({ Liferay }: Props) {
     } else {
       const getBeers = async () => {
         const response = await axios.get(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers?p_auth=${Liferay.authToken}`)
-        setData(response.data);
+        setData(response.data.items);
       };
       getBeers();
     }

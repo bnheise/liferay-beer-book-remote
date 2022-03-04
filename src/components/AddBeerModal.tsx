@@ -26,7 +26,7 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
             formData
         });
         console.log(response)
-        setData([...data, response.data])
+        setData([...data, response.data.items])
         // const formData = new FormData();
 
         // formData.append('File', selectedFile);
