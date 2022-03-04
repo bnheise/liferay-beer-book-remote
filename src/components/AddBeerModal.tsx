@@ -28,7 +28,7 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
             const folderId = 0;
             const name = formData.name.replace(" ", "_") + "_img";
             const bytes = await selectedFile.arrayBuffer()
-            console.log({
+            const dataToSend = {
                 repositoryId: 20125,
                 folderId: folderId,
                 sourceFileName: selectedFile?.name,
@@ -37,19 +37,11 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
                 description: `Product image for ${formData.name}`,
                 changeLog: '',
                 file: bytes
-            })
+            }
+            console.log(dataToSend)
             Liferay.Service(
                 '/dlapp/add-file-entry',
-                {
-                    repositoryId: repoId,
-                    folderId: folderId,
-                    sourceFileName: selectedFile?.name,
-                    mimeType: selectedFile?.type,
-                    title: name,
-                    description: `Product image for ${formData.name}`,
-                    changeLog: '',
-                    file: bytes
-                },
+                dataToSend,
                 function (response: any) {
                     console.log(response);
                     const uuid = response?.uuid;
@@ -60,9 +52,9 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
                         headers: {
                             "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
                         }
-                    }).then((response: any) => {
-                        console.log("DATA returned", data, response.data)
-                        setData([...data, response.data])
+                    }).then((nextRepsone: any) => {
+                        console.log("DATA returned", data, nextRepsone.data)
+                        setData([...data, nextRepsone.data])
                     }).catch((error: any) => {
                         console.log(error)
                     })
