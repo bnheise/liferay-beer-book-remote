@@ -35,7 +35,7 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
                 title: name,
                 description: `Product image for ${formData.name}`,
                 changeLog: '',
-                file: selectedFile.arrayBuffer
+                file: selectedFile.arrayBuffer()
             })
             Liferay.Service(
                 '/dlapp/add-file-entry',
