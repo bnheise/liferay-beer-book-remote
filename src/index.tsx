@@ -16,10 +16,10 @@ declare global {
 const renderApp = (container: HTMLElement | null) => {
   let liferay;
   try {
-    liferay = { Liferay };
+    liferay = Liferay;
   } catch (e) {
     console.log("HERE")
-    liferay = { Liferay: {} }
+    liferay = {}
   }
   console.log(liferay)
   return ReactDOM.render(

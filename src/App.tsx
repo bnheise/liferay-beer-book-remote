@@ -13,14 +13,6 @@ interface Props {
 function App({ Liferay }: Props) {
   const [data, setData] = useState<any>();
   const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (process.env.NODE_ENV === "development") {
-      import('./dummyData/dummy.json')
-        .then((json) => {
-          setData(json.items);
-        });
-    }
-  })
 
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
@@ -36,6 +28,7 @@ function App({ Liferay }: Props) {
       getBeers();
     }
   }, [Liferay])
+
   console.log(data)
   return (
     <ClayLayout.ContainerFluid view>
