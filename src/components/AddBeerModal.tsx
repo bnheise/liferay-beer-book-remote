@@ -22,27 +22,25 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
 
     const handleSubmission = async () => {
         try {
-            // console.log(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`)
-            // console.log(formData)
-            // const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, {
-            //     formData
-            // }, {
-            //     headers: {
-            //         "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
-            //     }
-            // });
-            // setData([...data, response.data.items])
-            Liferay.Service(
-                '/object.objectentry/add-object-entry',
-                {
-                    groupId: Liferay.ThemeDisplay.getScopeGroupId(),
-                    objectDefinitionId: 43843,
-                    values: formData
-                },
-                function (obj: any) {
-                    console.log(obj);
+            console.log(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`)
+            console.log(formData)
+            const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
+                headers: {
+                    "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
                 }
-            );
+            });
+            setData([...data, response.data.items])
+            // Liferay.Service(
+            //     '/object.objectentry/add-object-entry',
+            //     {
+            //         groupId: Liferay.ThemeDisplay.getCompanyGroupId(),
+            //         objectDefinitionId: 43843,
+            //         values: formData
+            //     },
+            //     function (obj: any) {
+            //         console.log(obj);
+            //     }
+            // );
         } catch (error) {
             let message
             if (error instanceof Error) message = error.message
