@@ -22,10 +22,14 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
 
     const handleSubmission = async () => {
         try {
-            console.log(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers?p_auth=${Liferay.authToken}`)
+            console.log(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`)
             console.log(formData)
-            const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers?p_auth=${Liferay.authToken}`, {
+            const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, {
                 formData
+            }, {
+                headers: {
+                    "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
+                }
             });
             setData([...data, response.data.items])
         } catch (error) {
@@ -33,25 +37,6 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
             if (error instanceof Error) message = error.message
             console.log(message)
         }
-
-        // const formData = new FormData();
-
-        // formData.append('File', selectedFile);
-
-        // fetch(
-        //     'https://freeimage.host/api/1/upload?key=<YOUR_API_KEY>',
-        //     {
-        //         method: 'POST',
-        //         body: formData,
-        //     }
-        // )
-        //     .then((response) => response.json())
-        //     .then((result) => {
-        //         console.log('Success:', result);
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error:', error);
-        //     });
     };
 
     return (
