@@ -27,6 +27,7 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
             const repoId = 20125;
             const folderId = 0;
             const name = formData.name.replace(" ", "_") + "_img";
+            const bytes = await selectedFile.arrayBuffer()
             console.log({
                 repositoryId: 20125,
                 folderId: folderId,
@@ -35,7 +36,7 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
                 title: name,
                 description: `Product image for ${formData.name}`,
                 changeLog: '',
-                file: selectedFile.arrayBuffer()
+                file: bytes
             })
             Liferay.Service(
                 '/dlapp/add-file-entry',
@@ -49,24 +50,22 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
                     changeLog: '',
                     file: selectedFile.arrayBuffer()
                 },
-                async function (response: any) {
+                function (response: any) {
                     console.log(response);
                     const uuid = response?.uuid;
-                    try {
 
-                        formData.imageUrl = `${Liferay?.ThemeDisplay?.getPortalURL()}/documents/${repoId}/${folderId}/${name}/${uuid}`
-                        const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
-                            headers: {
-                                "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
-                            }
-                        });
+
+                    formData.imageUrl = `${Liferay?.ThemeDisplay?.getPortalURL()}/documents/${repoId}/${folderId}/${name}/${uuid}`
+                    axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
+                        headers: {
+                            "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
+                        }
+                    }).then((response: any) => {
                         console.log("DATA returned", data, response.data)
                         setData([...data, response.data])
-                    } catch (error) {
-                        let message
-                        if (error instanceof Error) message = error.message
-                        console.error(message)
-                    }
+                    }).catch((error: any) => {
+                        console.log(error)
+                    })
                 },
                 function (error: any) {
                     console.log("THERE WAS AN ERROR")
