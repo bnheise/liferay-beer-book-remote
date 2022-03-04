@@ -9,6 +9,10 @@ const spritemap =
   "https://cdn.jsdelivr.net/npm/@clayui/css/lib/images/icons/icons.svg";
 const { NODE_ENV } = process.env;
 
+declare global {
+  const Liferay: any;
+}
+
 const renderApp = (container: HTMLElement | null) => {
   return ReactDOM.render(
     <React.StrictMode>

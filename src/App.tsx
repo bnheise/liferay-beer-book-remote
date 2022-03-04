@@ -18,7 +18,7 @@ function App() {
   })
 
   const { resource } = useResource({
-    link: "/o/c/beers?p_auth=S7RZL9hL"
+    link: `${Liferay.ThemeDisplay.getPortalURL()}/o/c/beers?p_auth=S7RZL9hL`
   });
 
   if (resource) setData(resource.items);
