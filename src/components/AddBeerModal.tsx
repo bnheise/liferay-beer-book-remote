@@ -47,7 +47,7 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
                     title: name,
                     description: `Product image for ${formData.name}`,
                     changeLog: '',
-                    file: selectedFile
+                    file: selectedFile.stream()
                 },
                 async function (response: any) {
                     console.log(response);
