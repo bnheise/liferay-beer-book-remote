@@ -29,18 +29,8 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
                     "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
                 }
             });
+            console.log(response.data)
             setData([...data, response.data.items])
-            // Liferay.Service(
-            //     '/object.objectentry/add-object-entry',
-            //     {
-            //         groupId: Liferay.ThemeDisplay.getCompanyGroupId(),
-            //         objectDefinitionId: 43843,
-            //         values: formData
-            //     },
-            //     function (obj: any) {
-            //         console.log(obj);
-            //     }
-            // );
         } catch (error) {
             let message
             if (error instanceof Error) message = error.message
