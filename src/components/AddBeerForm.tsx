@@ -5,10 +5,14 @@ import { ListType } from '../dto/style';
 import { ClaySelect } from '@clayui/form';
 
 type Props = {
-    handleSubmission: (selectedFile: File) => void
+    handleSubmission: (selectedFile: File) => void,
     formData: NewBeer,
     setFormData: React.Dispatch<React.SetStateAction<NewBeer>>,
-    Liferay: any;
+    Liferay: any,
+    selectedFile: File | undefined,
+    setSelectedFile: React.Dispatch<React.SetStateAction<File | undefined>>,
+    isFilePicked: boolean,
+    setIsFilePicked: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface Option {
@@ -50,9 +54,7 @@ const dummyStyleOptions: ListType[] = [
 ]
 
 const AddBeerForm = (props: Props) => {
-    const { Liferay } = props;
-    const [selectedFile, setSelectedFile] = useState<File>();
-    const [isFilePicked, setIsFilePicked] = useState(false);
+    const { Liferay, setSelectedFile, setIsFilePicked } = props;
     const [styleOptions, setStyleOptions] = useState<Option[]>();
     const { setFormData } = props;
     const { name, aBV, eBC, iBU, price, style, brewer, imageUrl } = props.formData;

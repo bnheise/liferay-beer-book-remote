@@ -18,15 +18,19 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
         onClose: () => setVisible(false),
     });
 
+    const [selectedFile, setSelectedFile] = useState<File>();
+    const [isFilePicked, setIsFilePicked] = useState(false);
     const [formData, setFormData] = useState<NewBeer>(emptyBeer);
 
     const handleSubmission = async () => {
         try {
+
             const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
                 headers: {
                     "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
                 }
             });
+            console.log("DATA returned", data, response.data)
             setData([...data, response.data])
         } catch (error) {
             let message
@@ -46,7 +50,7 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
                 >
                     <ClayModal.Header>{"Add a new beer"}</ClayModal.Header>
                     <ClayModal.Body>
-                        <AddBeerForm Liferay={Liferay} formData={formData} setFormData={setFormData} handleSubmission={handleSubmission} />
+                        <AddBeerForm selectedFile={selectedFile} setSelectedFile={setSelectedFile} isFilePicked={isFilePicked} setIsFilePicked={setIsFilePicked} Liferay={Liferay} formData={formData} setFormData={setFormData} handleSubmission={handleSubmission} />
                     </ClayModal.Body>
                     <ClayModal.Footer
                         last={
