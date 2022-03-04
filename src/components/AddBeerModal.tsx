@@ -24,42 +24,58 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
 
     const handleSubmission = async () => {
         if (selectedFile) {
+            const repoId = 20125;
+            const folderId = 0;
+            const name = formData.name.replace(" ", "_") + "_img";
+            console.log({
+                repositoryId: 20125,
+                folderId: folderId,
+                sourceFileName: selectedFile?.name,
+                mimeType: selectedFile?.type,
+                title: name,
+                description: `Product image for ${formData.name}`,
+                changeLog: '',
+                file: selectedFile
+            })
             Liferay.Service(
                 '/dlapp/add-file-entry',
                 {
                     repositoryId: 20125,
-                    folderId: 0,
+                    folderId: folderId,
                     sourceFileName: selectedFile?.name,
                     mimeType: selectedFile?.type,
-                    title: formData.name.replace(" ", "_") + "_img",
+                    title: name,
                     description: `Product image for ${formData.name}`,
                     changeLog: '',
                     file: selectedFile
                 },
-                function (response: any) {
+                async function (response: any) {
                     console.log(response);
+                    const uuid = response?.uuid;
+                    try {
+
+                        formData.imageUrl = `${Liferay?.ThemeDisplay?.getPortalURL()}/documents/${repoId}/${folderId}/${name}/${uuid}`
+                        const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
+                            headers: {
+                                "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
+                            }
+                        });
+                        console.log("DATA returned", data, response.data)
+                        setData([...data, response.data])
+                    } catch (error) {
+                        let message
+                        if (error instanceof Error) message = error.message
+                        console.error(message)
+                    }
                 },
                 function (error: any) {
+                    console.log("THERE WAS AN ERROR")
                     console.log(error)
                 }
 
             );
         }
-        try {
 
-
-            const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
-                headers: {
-                    "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
-                }
-            });
-            console.log("DATA returned", data, response.data)
-            setData([...data, response.data])
-        } catch (error) {
-            let message
-            if (error instanceof Error) message = error.message
-            console.error(message)
-        }
     };
 
     return (
