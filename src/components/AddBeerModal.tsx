@@ -23,7 +23,30 @@ const AddBeerModal = ({ Liferay, setVisible, visible, data, setData }: Props) =>
     const [formData, setFormData] = useState<NewBeer>(emptyBeer);
 
     const handleSubmission = async () => {
+        if (selectedFile) {
+            Liferay.Service(
+                '/dlapp/add-file-entry',
+                {
+                    repositoryId: 20125,
+                    folderId: 0,
+                    sourceFileName: selectedFile?.name,
+                    mimeType: selectedFile?.type,
+                    title: formData.name.replace(" ", "_") + "_img",
+                    description: `Product image for ${formData.name}`,
+                    changeLog: '',
+                    file: selectedFile
+                },
+                function (response: any) {
+                    console.log(response);
+                },
+                function (error: any) {
+                    console.log(error)
+                }
+
+            );
+        }
         try {
+
 
             const response = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
                 headers: {
