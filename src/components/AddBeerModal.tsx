@@ -48,16 +48,27 @@ const AddBeerModal = ({
             };
 
             try {
+
                 const imagePostUrl = `${Liferay?.ThemeDisplay?.getPortalURL()}/api/jsonws/dlapp/add-file-entry`;
+                const imageData: any = await fetch(imagePostUrl, {
+                    method: 'POST',
+                    // mode: 'cors', // no-cors, *cors, same-origin
+                    // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    // credentials: 'same-origin', // include, *same-origin, omit
+                    headers,
+                    // redirect: 'follow', // manual, *follow, error
+                    // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                    body: JSON.stringify(dataToSend) // body data type must match "Content-Type" header
+                });
                 console.log("image post url", imagePostUrl)
                 console.log("data to send", dataToSend)
-                const imageData: any = await axios.post(
-                    imagePostUrl,
-                    formData,
-                    {
-                        headers,
-                    }
-                );
+                // const imageData: any = await axios.post(
+                //     imagePostUrl,
+                //     formData,
+                //     {
+                //         headers,
+                //     }
+                // );
                 console.log(imageData)
                 const uuid = imageData.data?.uuid;
                 console.log(uuid)
