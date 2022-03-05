@@ -43,7 +43,6 @@ const AddBeerModal = ({
             dataToSend.append("description", `Product image for ${formData.name}`);
             dataToSend.append("changeLog", "");
             const headers = {
-                "Content-Type": "multipart/form-data; boundary=",
                 accept: "application/json",
                 "x-csrf-token": Liferay.authToken,
             };
@@ -67,11 +66,7 @@ const AddBeerModal = ({
                     imagePostUrl,
                     formData,
                     {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                            accept: "application/json",
-                            "x-csrf-token": Liferay.authToken,
-                        },
+                        headers
                     }
                 );
                 console.log(imageData)
