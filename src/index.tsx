@@ -7,7 +7,7 @@ import "@clayui/css/lib/css/atlas.css";
 
 const spritemap =
   "https://cdn.jsdelivr.net/npm/@clayui/css/lib/images/icons/icons.svg";
-const { NODE_ENV } = process.env;
+const { NODE_ENV, REACT_APP_NODE_ENV } = process.env;
 
 declare global {
   const Liferay: any;
@@ -18,10 +18,8 @@ const renderApp = (container: HTMLElement | null) => {
   try {
     liferay = Liferay;
   } catch (e) {
-    console.log("HERE")
     liferay = {}
   }
-  console.log(liferay)
   return ReactDOM.render(
     <React.StrictMode>
       <App Liferay={liferay} />
@@ -30,7 +28,7 @@ const renderApp = (container: HTMLElement | null) => {
   )
 }
 
-if (NODE_ENV === "development") {
+if (NODE_ENV === "development" || REACT_APP_NODE_ENV === "development") {
   renderApp(document.getElementById('root'))
 } else {
   class WebComponent extends HTMLElement {

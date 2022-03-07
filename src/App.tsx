@@ -15,7 +15,7 @@ function App({ Liferay }: Props) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === "development" || process.env.REACT_APP_NODE_ENV === "development") {
       import('./dummyData/dummy.json')
         .then((json) => {
           setData(json.items);
@@ -23,14 +23,12 @@ function App({ Liferay }: Props) {
     } else {
       const getBeers = async () => {
         const response = await axios.get(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers?p_auth=${Liferay.authToken}`)
-        console.log(response.data.items)
         setData(response.data.items);
       };
       getBeers();
     }
-  }, [Liferay])
+  }, [])
 
-  console.log(data)
   return (
     <ClayLayout.ContainerFluid view>
       <h2>Welcome to Liferay Beerbook!</h2>

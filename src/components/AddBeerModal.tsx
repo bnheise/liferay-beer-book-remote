@@ -31,57 +31,40 @@ const AddBeerModal = ({
     const handleSubmission = async () => {
         if (selectedFile) {
             const repoId = 20125;
-            let dataToSend = new FormData();
-            const name = formData.name.replace(" ", "_") + "_img";
-            const folderId = "0";
-            dataToSend.append("file", selectedFile);
-            dataToSend.append("repositoryId", "20125");
-            dataToSend.append("folderId", folderId);
-            dataToSend.append("mimeType", selectedFile?.type);
-            dataToSend.append("title", name);
-            dataToSend.append("sourceFileName", selectedFile?.name);
-            dataToSend.append("description", `Product image for ${formData.name}`);
-            dataToSend.append("changeLog", "");
-            const headers = {
-                accept: "application/json",
-                "x-csrf-token": Liferay.authToken,
-            };
+            let imageData = new FormData();
+            let random = Math.random()
+            const name = formData.name.replace(" ", "_") + "_img" + random;
+            const folderId = 0;
+
+            imageData.append("file", selectedFile);
+            imageData.append("repositoryId", String(repoId));
+            imageData.append("folderId", String(folderId));
+            imageData.append("mimeType", selectedFile?.type);
+            imageData.append("title", name);
+            imageData.append("sourceFileName", selectedFile?.name.replace(".", `${random}.`));
+            imageData.append("description", `Product image for ${formData.name}`);
+            imageData.append("changeLog", "");
 
             try {
 
-                const imagePostUrl = `${Liferay?.ThemeDisplay?.getPortalURL()}/api/jsonws/dlapp/add-file-entry`;
-                // const imageData: any = await fetch(imagePostUrl, {
-                //     method: 'POST',
-                //     // mode: 'cors', // no-cors, *cors, same-origin
-                //     // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-                //     // credentials: 'same-origin', // include, *same-origin, omit
-                //     headers,
-                //     // redirect: 'follow', // manual, *follow, error
-                //     // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                //     body: JSON.stringify(dataToSend) // body data type must match "Content-Type" header
-                // });
-                console.log("image post url", imagePostUrl)
-                console.log("data to send", dataToSend.entries)
-                const imageData: any = await axios.post(
-                    imagePostUrl,
-                    formData,
-                    {
-                        headers
-                    }
-                );
-                console.log(imageData)
-                const uuid = imageData.data?.uuid;
-                console.log(uuid)
+                const imagePostUrl = `${Liferay?.ThemeDisplay?.getPortalURL()}/api/jsonws/dlapp/add-file-entry?p_auth=${Liferay.authToken}`;
+                const response: Response = await fetch(imagePostUrl, {
+                    method: 'POST',
+                    body: imageData
+                });
+
+                const body = await response.json();
+
+                const uuid = body.uuid;
+
                 formData.imageUrl = `/documents/${repoId}/${folderId}/${name}/${uuid}`
                 const result = await axios.post(`${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`, formData, {
                     headers: {
                         "accept": "application/json", "Content-Type": "application/json", "x-csrf-token": Liferay.authToken
                     }
                 });
-                console.log(result.data)
                 setData([...data, result.data])
-                console.log(result);
-                setVisible(false);
+                onClose();
             } catch (error) {
                 console.error(error);
             }
