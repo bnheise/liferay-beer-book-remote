@@ -28,8 +28,10 @@ const renderApp = (container: HTMLElement | null) => {
 }
 
 if (REACT_APP_USE_LOCAL) {
+  console.log("TOP")
   renderApp(document.getElementById('root'))
 } else {
+  console.log("BOTTOM")
   class WebComponent extends HTMLElement {
 
     connectedCallback() {
