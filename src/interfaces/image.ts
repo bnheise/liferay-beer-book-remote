@@ -1,0 +1,36 @@
+export interface IImageData {
+  classNameId: number;
+  classPK: number;
+  companyId: number;
+  createDate: Date;
+  ctCollectionId: number;
+  custom1ImageId: number;
+  custom2ImageId: number;
+  description: string;
+  expirationDate?: Date;
+  extension: string;
+  externalReferenceCode: number;
+  extraSettings: string;
+  fileEntryId: number;
+  fileEntryTypeId: number;
+  fileName: string;
+  folderId: number;
+  groupId: number;
+  largeImageId: number;
+  lastPublishDate?: Date;
+  manualCheckInRequired: boolean;
+  mimeType: string;
+  modifiedDate: Date;
+  mvccVersion: number;
+  name: string;
+  repositoryId: number;
+  reviewDate?: Date;
+  size: number;
+  smallImageId: number;
+  title: string;
+  treePath: string;
+  userId: number;
+  userName: string;
+  uuid: string;
+  version: string;
+}

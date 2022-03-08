@@ -1,63 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import ClayForm, { ClayInput } from '@clayui/form';
-import { NewBeer } from '../dto/newBeerForm';
-import { ListType } from '../dto/style';
-import { ClaySelect } from '@clayui/form';
+import ClayForm, { ClayInput, ClaySelect } from '@clayui/form';
+import { NewBeer } from '../interfaces/newBeerForm';
+import { Option } from '../interfaces/option';
+import { getStyles } from '../api/styles';
 
 type Props = {
-    handleSubmission: (selectedFile: File) => void,
     formData: NewBeer,
     setFormData: React.Dispatch<React.SetStateAction<NewBeer>>,
-    Liferay: any,
     selectedFile: File | undefined,
     setSelectedFile: React.Dispatch<React.SetStateAction<File | undefined>>,
     isFilePicked: boolean,
-    setIsFilePicked: React.Dispatch<React.SetStateAction<boolean>>
+    setIsFilePicked: React.Dispatch<React.SetStateAction<boolean>>,
+    styleListId: string
 }
-
-interface Option {
-    value: string,
-    label: string,
-}
-
-const dummyStyleOptions: ListType[] = [
-    {
-        "companyId": 20099,
-        "createDate": new Date(1646273411527),
-        "key": "americanPaleAle",
-        "listTypeDefinitionId": 43845,
-        "listTypeEntryId": 43846,
-        "modifiedDate": new Date(1646273411527),
-        "mvccVersion": 0,
-        "name": "<?xml version='1.0' encoding='UTF-8'?><root available-locales=\"en_US\" default-locale=\"en_US\"><Name language-id=\"en_US\">American Pale Ale</Name></root>",
-        "nameCurrentValue": "American Pale Ale",
-        "type": "",
-        "userId": 20127,
-        "userName": "Test Test",
-        "uuid": "39aa1bfd-2e68-7ff7-ca74-3cceaeecf8a2"
-    },
-    {
-        "companyId": 20099,
-        "createDate": new Date(1646274351295),
-        "key": "porter",
-        "listTypeDefinitionId": 43845,
-        "listTypeEntryId": 43928,
-        "modifiedDate": new Date(1646274379564),
-        "mvccVersion": 1,
-        "name": "<?xml version='1.0' encoding='UTF-8'?><root available-locales=\"en_US\" default-locale=\"en_US\"><Name language-id=\"en_US\">Porter</Name></root>",
-        "nameCurrentValue": "Porter",
-        "type": "",
-        "userId": 20127,
-        "userName": "Test Test",
-        "uuid": "86b3b1a0-9497-bf09-6f56-9460b3ba7154"
-    }
-]
 
 const AddBeerForm = (props: Props) => {
-    const { Liferay, setSelectedFile, setIsFilePicked } = props;
+    const { styleListId, setSelectedFile, setIsFilePicked, formData, setFormData } = props;
     const [styleOptions, setStyleOptions] = useState<Option[]>();
-    const { setFormData } = props;
-    const { name, aBV, eBC, iBU, price, style, brewer, imageUrl } = props.formData;
+    const { name, aBV, eBC, iBU, price, brewer } = formData;
 
     const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event && event.target && event.target.files) {
@@ -66,23 +26,7 @@ const AddBeerForm = (props: Props) => {
         }
     };
 
-    useEffect(() => {
-        if (Liferay.Service) {
-            Liferay.Service(
-                '/listtype.listtypeentry/get-list-type-entries',
-                {
-                    listTypeDefinitionId: 43845,
-                    start: 0,
-                    end: 100,
-                },
-                function (response: ListType[]) {
-                    setStyleOptions(response.map(item => ({ value: item.key, label: item.nameCurrentValue })));
-                }
-            );
-        } else {
-            setStyleOptions(dummyStyleOptions?.map(item => ({ value: item.key, label: item.nameCurrentValue })))
-        }
-    }, [])
+    useEffect(() => getStyles(styleListId, setStyleOptions), []);
 
     const changeName = (event: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...props.formData, name: event.target.value })
     const changeBrewer = (event: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...props.formData, brewer: event.target.value })

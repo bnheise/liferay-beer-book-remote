@@ -1,0 +1,487 @@
+openapi: 3.0.1
+info:
+  title: Object
+  version: v1.0
+servers:
+- url: http://localhost:8080/o/c/beers/
+paths:
+  /:
+    get:
+      tags:
+      - Beer
+      operationId: getBeersPage
+      parameters:
+      - name: flatten
+        in: query
+        schema:
+          type: string
+      - name: search
+        in: query
+        schema:
+          type: string
+      - name: filter
+        in: query
+        schema:
+          type: string
+      - name: page
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        schema:
+          type: string
+      - name: sort
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageBeer'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/PageBeer'
+    post:
+      tags:
+      - Beer
+      operationId: postBeer
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Beer'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Beer'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beer'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Beer'
+  /by-external-reference-code/{externalReferenceCode}:
+    get:
+      tags:
+      - Beer
+      operationId: getByExternalReferenceCode
+      parameters:
+      - name: externalReferenceCode
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beer'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Beer'
+    put:
+      tags:
+      - Beer
+      operationId: putByExternalReferenceCode
+      parameters:
+      - name: externalReferenceCode
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Beer'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Beer'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beer'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Beer'
+    delete:
+      tags:
+      - Beer
+      operationId: deleteByExternalReferenceCode
+      parameters:
+      - name: externalReferenceCode
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+            application/xml: {}
+  /batch:
+    put:
+      tags:
+      - Beer
+      operationId: putBeerBatch
+      parameters:
+      - name: callbackURL
+        in: query
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+    post:
+      tags:
+      - Beer
+      operationId: postBeerBatch
+      parameters:
+      - name: callbackURL
+        in: query
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+    delete:
+      tags:
+      - Beer
+      operationId: deleteBeerBatch
+      parameters:
+      - name: callbackURL
+        in: query
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+  /openapi.{type}:
+    get:
+      operationId: getOpenAPI
+      parameters:
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+            application/yaml: {}
+  /{beerId}:
+    get:
+      tags:
+      - Beer
+      operationId: getBeer
+      parameters:
+      - name: beerId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beer'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Beer'
+    put:
+      tags:
+      - Beer
+      operationId: putBeer
+      parameters:
+      - name: beerId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Beer'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Beer'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beer'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Beer'
+    delete:
+      tags:
+      - Beer
+      operationId: deleteBeer
+      parameters:
+      - name: beerId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: default response
+          content:
+            application/json: {}
+            application/xml: {}
+    patch:
+      tags:
+      - Beer
+      operationId: patchBeer
+      parameters:
+      - name: beerId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Beer'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Beer'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beer'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Beer'
+components:
+  schemas:
+    Creator:
+      type: object
+      properties:
+        additionalName:
+          type: string
+          description: The author's additional name (e.g., middle name).
+          readOnly: true
+        contentType:
+          type: string
+          description: The type of the content.
+          readOnly: true
+        familyName:
+          type: string
+          description: The author's surname.
+          readOnly: true
+        givenName:
+          type: string
+          description: The author's first name.
+          readOnly: true
+        id:
+          type: integer
+          description: The author's ID.
+          format: int64
+          readOnly: true
+        image:
+          type: string
+          description: A relative URL to the author's profile image.
+          readOnly: true
+        name:
+          type: string
+          description: The author's full name.
+          readOnly: true
+        profileURL:
+          type: string
+          description: A relative URL to the author's user profile. Optional field,
+            can be embedded with nestedFields.
+          readOnly: true
+        x-class-name:
+          type: string
+          readOnly: true
+          default: com.liferay.headless.delivery.dto.v1_0.Creator
+      xml:
+        name: Creator
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        label:
+          type: string
+        label_i18n:
+          type: string
+        x-class-name:
+          type: string
+          readOnly: true
+          default: com.liferay.object.rest.dto.v1_0.Status
+      xml:
+        name: Status
+    Facet:
+      type: object
+      properties:
+        facetCriteria:
+          type: string
+        facetValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacetValue'
+    FacetValue:
+      type: object
+      properties:
+        numberOfOccurrences:
+          type: integer
+          format: int32
+        term:
+          type: string
+    PageBeer:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+          format: int64
+        lastPage:
+          type: integer
+          format: int64
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Beer'
+        pageSize:
+          type: integer
+          format: int64
+        facets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Facet'
+        page:
+          type: integer
+          format: int64
+        actions:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: string
+        x-schema-name:
+          type: string
+          readOnly: true
+          default: PageBeer
+    Beer:
+      type: object
+      properties:
+        actions:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: string
+          readOnly: true
+        creator:
+          $ref: '#/components/schemas/Creator'
+        dateCreated:
+          type: string
+          format: date-time
+        dateModified:
+          type: string
+          format: date-time
+        externalReferenceCode:
+          type: string
+          readOnly: true
+        id:
+          type: integer
+          format: int64
+        scopeKey:
+          type: string
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/Status'
+        x-class-name:
+          type: string
+          readOnly: true
+          default: com.liferay.object.rest.dto.v1_0.ObjectEntry
+        x-schema-name:
+          type: string
+          readOnly: true
+          default: Beer
+        aBV:
+          type: number
+          format: double
+          x-parent-map: properties
+        brewer:
+          type: string
+          x-parent-map: properties
+        eBC:
+          type: number
+          format: double
+          x-parent-map: properties
+        iBU:
+          type: number
+          format: double
+          x-parent-map: properties
+        imageUrl:
+          type: string
+          x-parent-map: properties
+        name:
+          type: string
+          x-parent-map: properties
+        price:
+          type: integer
+          format: int32
+          x-parent-map: properties
+        style:
+          type: object
+          properties:
+            key:
+              type: string
+              x-parent-map: properties
+            name:
+              type: string
+              x-parent-map: properties
+          x-parent-map: properties
+      xml:
+        name: ObjectEntry
