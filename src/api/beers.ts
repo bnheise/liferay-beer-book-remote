@@ -1,7 +1,8 @@
-import { NewBeer } from "../interfaces/newBeerForm";
 import { components } from "./schema";
 
-export const getBeers = async (setData: React.Dispatch<any>) => {
+export const getBeers = async (
+  setData: React.Dispatch<components["schemas"]["Beer"][]>
+) => {
   const response = await fetch(
     `${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers?p_auth=${
       Liferay.authToken
@@ -12,17 +13,16 @@ export const getBeers = async (setData: React.Dispatch<any>) => {
   setData(beers);
 };
 
-export const postBeer = async (data: NewBeer) => {
-  let formData = new FormData();
-  Object.entries(data).forEach(([key, value]) => formData.append(key, value));
+export const postBeer = async (data: components["schemas"]["Beer"]) => {
   const headers = {
     accept: "application/json",
     "Content-Type": "application/json",
     "x-csrf-token": Liferay.authToken,
   };
+
   const response = await fetch(
     `${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/`,
-    { method: "POST", body: formData, headers }
+    { method: "POST", body: JSON.stringify(data), headers }
   );
 
   return response.json();

@@ -33,13 +33,13 @@ const AddBeerModal = ({
 
     const [selectedFile, setSelectedFile] = useState<File>();
     const [isFilePicked, setIsFilePicked] = useState(false);
-    const [formData, setFormData] = useState<NewBeer>(emptyBeer);
+    const [formData, setFormData] = useState<components["schemas"]["Beer"]>(emptyBeer);
 
     const handleSubmission = async () => {
         if (selectedFile) {
             try {
 
-                const { uuid, name: filename }: IImageData = await postImage(selectedFile, formData.name, repoId, folderId);
+                const { uuid, name: filename }: IImageData = await postImage(selectedFile, formData.name || "", repoId, folderId);
 
                 formData.imageUrl = `/documents/${repoId}/${folderId}/${filename}/${uuid}`
 

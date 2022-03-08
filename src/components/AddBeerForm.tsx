@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import ClayForm, { ClayInput, ClaySelect } from '@clayui/form';
-import { NewBeer } from '../interfaces/newBeerForm';
 import { Option } from '../interfaces/option';
 import { getStyles } from '../api/styles';
+import { components } from '../api/schema';
 
 type Props = {
-    formData: NewBeer,
-    setFormData: React.Dispatch<React.SetStateAction<NewBeer>>,
+    formData: components["schemas"]["Beer"],
+    setFormData: React.Dispatch<React.SetStateAction<components["schemas"]["Beer"]>>,
     selectedFile: File | undefined,
     setSelectedFile: React.Dispatch<React.SetStateAction<File | undefined>>,
     isFilePicked: boolean,
