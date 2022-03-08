@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "@clayui/css/lib/css/atlas.css";
 
-const { REACT_APP_USE_DXP } = process.env;
+const { REACT_APP_USE_LOCAL } = process.env;
 
 declare global {
   const Liferay: any;
@@ -27,7 +27,7 @@ const renderApp = (container: HTMLElement | null) => {
   )
 }
 
-if (!REACT_APP_USE_DXP) {
+if (REACT_APP_USE_LOCAL) {
   renderApp(document.getElementById('root'))
 } else {
   class WebComponent extends HTMLElement {
