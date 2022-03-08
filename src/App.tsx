@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { useResource } from '@clayui/data-provider';
 import ClayCard from '@clayui/card';
 import ClayLayout from '@clayui/layout';
 import ClayButton from '@clayui/button';
@@ -15,7 +14,7 @@ function App({ Liferay }: Props) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === "development" || process.env.REACT_APP_NODE_ENV === "development") {
+    if (!process.env.REACT_APP_USE_DXP) {
       import('./dummyData/dummy.json')
         .then((json) => {
           setData(json.items);

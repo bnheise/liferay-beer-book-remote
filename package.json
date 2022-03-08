@@ -33,7 +33,7 @@
     "@testing-library/dom": "7.21.4"
   },
   "scripts": {
-    "start-dev": "npm run build && npx serve ./build",
+    "start-dev": "react-scripts start",
     "start": "npm run build && npx serve ./build",
     "build": "react-scripts build && ./rename-chunks.sh",
     "test": "react-scripts test",

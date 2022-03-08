@@ -5,15 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "@clayui/css/lib/css/atlas.css";
 
-const spritemap =
-  "https://cdn.jsdelivr.net/npm/@clayui/css/lib/images/icons/icons.svg";
-const { NODE_ENV, REACT_APP_NODE_ENV } = process.env;
+const { REACT_APP_USE_DXP } = process.env;
 
 declare global {
   const Liferay: any;
 }
 
 const renderApp = (container: HTMLElement | null) => {
+
   let liferay;
   try {
     liferay = Liferay;
@@ -28,7 +27,7 @@ const renderApp = (container: HTMLElement | null) => {
   )
 }
 
-if (NODE_ENV === "development" || REACT_APP_NODE_ENV === "development") {
+if (!REACT_APP_USE_DXP) {
   renderApp(document.getElementById('root'))
 } else {
   class WebComponent extends HTMLElement {
