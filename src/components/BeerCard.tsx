@@ -2,12 +2,18 @@ import ClayCard from '@clayui/card'
 import { components } from '../api/schema'
 
 type Props = {
-    item: components["schemas"]["Beer"]
+    item: components["schemas"]["Beer"],
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>,
+    setSelectedBeer: React.Dispatch<React.SetStateAction<components["schemas"]["Beer"] | undefined>>
 }
 
-const BeerCard = ({ item }: Props) => {
+const BeerCard = ({ item, setVisible, setSelectedBeer }: Props) => {
+    const handleClick = () => {
+        setSelectedBeer(item);
+        setVisible(true);
+    }
     return (
-        <ClayCard style={{ width: "400px", margin: "40px", flexShrink: 0, flexWrap: "wrap" }}>
+        <ClayCard onClick={handleClick} style={{ cursor: "pointer", width: "400px", margin: "40px", flexShrink: 0, flexWrap: "wrap" }}>
             <ClayCard.Body>
                 <h3>{item.name}</h3>
                 <div style={{ display: "flex" }}>

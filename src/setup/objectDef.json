@@ -1,0 +1,166 @@
+{
+    "active": true,
+    "objectActions": [],
+    "label": { "en_US": "Beer" },
+    "panelCategoryKey": "control_panel.object",
+    "pluralLabel": { "en_US": "Beer" },
+    "objectLayouts": [
+      {
+        "objectLayoutTabs": [
+          {
+            "name": { "en_US": "Beer Info" },
+            "objectLayoutBoxes": [
+              {
+                "objectLayoutRows": [
+                  {
+                    "objectLayoutColumns": [
+                      { "objectFieldName": "name", "size": 12, "priority": 0 }
+                    ],
+                    "priority": 0
+                  },
+                  {
+                    "objectLayoutColumns": [
+                      { "objectFieldName": "style", "size": 12, "priority": 0 }
+                    ],
+                    "priority": 0
+                  },
+                  {
+                    "objectLayoutColumns": [
+                      { "objectFieldName": "aBV", "size": 12, "priority": 0 }
+                    ],
+                    "priority": 0
+                  },
+                  {
+                    "objectLayoutColumns": [
+                      { "objectFieldName": "iBU", "size": 12, "priority": 0 }
+                    ],
+                    "priority": 0
+                  },
+                  {
+                    "objectLayoutColumns": [
+                      { "objectFieldName": "eBC", "size": 12, "priority": 0 }
+                    ],
+                    "priority": 0
+                  },
+                  {
+                    "objectLayoutColumns": [
+                      { "objectFieldName": "imageUrl", "size": 12, "priority": 0 }
+                    ],
+                    "priority": 0
+                  },
+                  {
+                    "objectLayoutColumns": [
+                      { "objectFieldName": "price", "size": 12, "priority": 0 }
+                    ],
+                    "priority": 0
+                  },
+                  {
+                    "objectLayoutColumns": [
+                      { "objectFieldName": "brewer", "size": 12, "priority": 0 }
+                    ],
+                    "priority": 0
+                  }
+                ],
+                "collapsable": false,
+                "name": { "en_US": "Details" },
+                "priority": 0
+              }
+            ],
+            "priority": 0
+          }
+        ],
+        "name": { "en_US": "Default" },
+        "defaultObjectLayout": true
+      }
+    ],
+    "system": false,
+    "objectViews": [],
+    "objectFields": [
+      {
+        "indexedAsKeyword": false,
+        "indexed": true,
+        "indexedLanguageId": "",
+        "name": "aBV",
+        "DBType": "Double",
+        "label": { "en_US": "ABV" },
+        "type": "Double",
+        "required": true
+      },
+      {
+        "indexedAsKeyword": false,
+        "indexed": true,
+        "indexedLanguageId": "",
+        "name": "brewer",
+        "DBType": "String",
+        "label": { "en_US": "Brewer" },
+        "type": "String",
+        "required": true
+      },
+      {
+        "indexedAsKeyword": false,
+        "indexed": true,
+        "indexedLanguageId": "",
+        "name": "eBC",
+        "DBType": "Double",
+        "label": { "en_US": "EBC" },
+        "type": "Double",
+        "required": false
+      },
+      {
+        "indexedAsKeyword": false,
+        "indexed": true,
+        "indexedLanguageId": "",
+        "name": "iBU",
+        "DBType": "Double",
+        "label": { "en_US": "IBU" },
+        "type": "Double",
+        "required": false
+      },
+      {
+        "indexedAsKeyword": false,
+        "indexed": true,
+        "indexedLanguageId": "",
+        "name": "imageUrl",
+        "DBType": "String",
+        "label": { "en_US": "Image Url" },
+        "type": "String",
+        "required": false
+      },
+      {
+        "indexedAsKeyword": false,
+        "indexed": true,
+        "indexedLanguageId": "en_US",
+        "name": "name",
+        "DBType": "String",
+        "label": { "en_US": "Name" },
+        "type": "String",
+        "required": true
+      },
+      {
+        "indexedAsKeyword": false,
+        "indexed": true,
+        "indexedLanguageId": "",
+        "name": "price",
+        "DBType": "Integer",
+        "label": { "en_US": "Price" },
+        "type": "Integer",
+        "required": false
+      },
+      {
+        "indexedAsKeyword": false,
+        "indexed": true,
+        "indexedLanguageId": "",
+        "name": "style",
+        "DBType": "String",
+        "label": { "en_US": "Style" },
+        "type": "String",
+        "required": true
+      }
+    ],
+    "scope": "company",
+    "name": "Beer",
+    "portlet": false,
+    "actions": { "get": {}, "update": {} },
+    "status": { "label_i18n": "Approved", "code": 0, "label": "approved" }
+  }
+  

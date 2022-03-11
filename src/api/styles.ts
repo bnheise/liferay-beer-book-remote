@@ -13,12 +13,11 @@ export const getStyles = (
       end: 100,
     },
     function (response: ListType[]) {
-      setStyleOptions(
-        response.map((item) => ({
-          value: item.key,
-          label: item.nameCurrentValue,
-        }))
-      );
+      const styleOptions = response.map((item) => ({
+        value: item.key,
+        label: item.nameCurrentValue,
+      }));
+      setStyleOptions(styleOptions);
     }
   );
 };

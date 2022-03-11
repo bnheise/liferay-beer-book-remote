@@ -17,7 +17,7 @@ type Props = {
 const AddBeerForm = (props: Props) => {
     const { styleListId, setSelectedFile, setIsFilePicked, formData, setFormData } = props;
     const [styleOptions, setStyleOptions] = useState<Option[]>();
-    const { name, aBV, eBC, iBU, price, brewer } = formData;
+    const { name, aBV, eBC, iBU, price, brewer, style } = formData;
 
     const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event && event.target && event.target.files) {
@@ -26,7 +26,12 @@ const AddBeerForm = (props: Props) => {
         }
     };
 
-    useEffect(() => getStyles(styleListId, setStyleOptions), []);
+    useEffect(() => getStyles(styleListId, setStyleOptions), [styleListId]);
+    useEffect(() => {
+        if (formData.style && styleOptions) {
+            setFormData({ ...formData, style: { key: styleOptions[0].value } })
+        };
+    }, [styleOptions]);
 
     const changeName = (event: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...props.formData, name: event.target.value })
     const changeBrewer = (event: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...props.formData, brewer: event.target.value })
@@ -67,7 +72,7 @@ const AddBeerForm = (props: Props) => {
             </ClayForm.Group>
             <ClayForm.Group className="form-group-sm">
                 <label htmlFor="basicInput">Style</label>
-                <ClaySelect onChange={changeStyle} style={{ marginBottom: "16px" }} aria-label="Select Label" id="mySelectId">
+                <ClaySelect value={style?.key} onChange={changeStyle} style={{ marginBottom: "16px" }} aria-label="Select Label" id="mySelectId">
                     {styleOptions?.map(item => (
                         <ClaySelect.Option
                             key={item.value}

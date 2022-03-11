@@ -15,6 +15,7 @@ interface Props {
 
 function Portlet({ folderId, repoId, styleListId }: Props) {
   const [data, setData] = useState<components["schemas"]["Beer"][]>();
+  const [selectedBeer, setSelectedBeer] = useState<components["schemas"]["Beer"]>();
   const [visible, setVisible] = useState(false);
   useEffect(() => { getBeers(setData) }, [])
 
@@ -24,10 +25,10 @@ function Portlet({ folderId, repoId, styleListId }: Props) {
       <ClayButton onClick={() => setVisible(true)}>Add beer!</ClayButton>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {data ?
-          data.map((item: any, index: number) => <BeerCard key={index} item={item} />) :
+          data.map((item: any, index: number) => <BeerCard setSelectedBeer={setSelectedBeer} setVisible={setVisible} key={index} item={item} />) :
           <ClayLoadingIndicator />}
       </div>
-      <AddBeerModal styleListId={styleListId} folderId={folderId} repoId={repoId} setData={setData} data={data} setVisible={setVisible} visible={visible} />
+      <AddBeerModal styleListId={styleListId} selectedBeer={selectedBeer} folderId={folderId} repoId={repoId} setData={setData} data={data} setVisible={setVisible} visible={visible} />
     </ClayLayout.ContainerFluid>
   );
 }
