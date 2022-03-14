@@ -1,5 +1,6 @@
 import ClayCard from '@clayui/card'
 import { components } from '../api/schema'
+import { useLiferayNavigate } from '../hooks/useLiferayNavigate';
 
 type Props = {
     item: components["schemas"]["Beer"],
@@ -8,9 +9,12 @@ type Props = {
 }
 
 const BeerCard = ({ item, setVisible, setSelectedBeer }: Props) => {
+    let navigate = useLiferayNavigate();
+
     const handleClick = () => {
         setSelectedBeer(item);
         setVisible(true);
+        navigate(`beerbook/${item.id}`);
     }
     return (
         <ClayCard onClick={handleClick} style={{ cursor: "pointer", width: "400px", margin: "40px", flexShrink: 0, flexWrap: "wrap" }}>

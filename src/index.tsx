@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Portlet from "./Portlet";
 import "@clayui/css/lib/css/atlas.css";
 import objectDef from "./setup/objectDef.json";
+import { BrowserRouter } from "react-router-dom";
 
 declare global {
   const Liferay: any;
@@ -31,13 +32,16 @@ class WebComponent extends HTMLElement {
     }, []);
 
     if (missingValues.length === 0) {
+      console.log(window.location.href)
       return ReactDOM.render(
         <React.StrictMode>
-          <Portlet
-            styleListId={this.getAttribute("stylePicklistId") || ""}
-            folderId={this.getAttribute("folderId") || ""}
-            repoId={this.getAttribute("repoId") || ""}
-          />
+          <BrowserRouter>
+            <Portlet
+              styleListId={this.getAttribute("stylePicklistId") || ""}
+              folderId={this.getAttribute("folderId") || ""}
+              repoId={this.getAttribute("repoId") || ""}
+            />
+          </BrowserRouter>
         </React.StrictMode>,
         this
       );
