@@ -1,6 +1,6 @@
 import ClayCard from '@clayui/card'
 import { components } from '../api/schema'
-import { useLiferayNavigate } from '../hooks/useLiferayNavigate';
+import { useLiferayNavigate } from '@toadslop/remote-react-app-toolkit';
 
 type Props = {
     item: components["schemas"]["Beer"],

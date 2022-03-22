@@ -45,6 +45,6 @@ export const deleteBeer = async (data: components["schemas"]["Beer"]) => {
     `${Liferay?.ThemeDisplay?.getPortalURL()}/o/c/beers/${data.id}`,
     { method: "DELETE", body: JSON.stringify(data), headers }
   );
-  console.log("GOT HERE", response);
+
   return response.text();
 };

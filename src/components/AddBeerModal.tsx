@@ -7,15 +7,13 @@ import { components } from "../api/schema";
 import { postImage } from "../api/image";
 import { IImageData } from "../interfaces/image";
 import { deleteBeer, saveBeer } from "../api/beers";
+import { useLiferayContext, useLiferayNavigate } from "@toadslop/remote-react-app-toolkit";
 
 type Props = {
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
     visible: boolean;
     data: components["schemas"]["Beer"][] | undefined;
     setData: React.Dispatch<components["schemas"]["Beer"][]>;
-    folderId: string;
-    repoId: string;
-    styleListId: string;
     selectedBeer?: components["schemas"]["Beer"]
 };
 
@@ -24,14 +22,16 @@ const AddBeerModal = ({
     visible,
     data,
     setData,
-    folderId,
-    repoId,
-    styleListId,
     selectedBeer
 }: Props) => {
     const [selectedFile, setSelectedFile] = useState<File>();
     const [isFilePicked, setIsFilePicked] = useState(false);
     const [formData, setFormData] = useState<components["schemas"]["Beer"]>(selectedBeer || emptyBeer);
+    const context = useLiferayContext();
+    console.log(context)
+    const { folderid, repoid } = context.properties;
+
+    const navigate = useLiferayNavigate();
 
     const { observer, onClose } = useModal({
         onClose: () => {
@@ -53,9 +53,14 @@ const AddBeerModal = ({
             }
             onClose()
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
 
+    }
+
+    const onCancel = () => {
+        navigate("beerbook/");
+        onClose();
     }
 
     useEffect(() => {
@@ -66,8 +71,8 @@ const AddBeerModal = ({
         if (selectedFile) {
             try {
                 if (selectedFile) {
-                    const { uuid, name: filename }: IImageData = await postImage(selectedFile, formData.name || "", repoId, folderId);
-                    formData.imageUrl = `/documents/${repoId}/${folderId}/${filename}/${uuid}`
+                    const { uuid, name: filename }: IImageData = await postImage(selectedFile, formData.name || "", repoid, folderid);
+                    formData.imageUrl = `/documents/${repoid}/${folderid}/${filename}/${uuid}`
                 }
 
                 const savedBeer: components["schemas"]["Beer"] = await saveBeer(formData, selectedBeer?.id);
@@ -105,13 +110,12 @@ const AddBeerModal = ({
                             setIsFilePicked={setIsFilePicked}
                             formData={formData}
                             setFormData={setFormData}
-                            styleListId={styleListId}
                         />
                     </ClayModal.Body>
                     <ClayModal.Footer
                         last={
                             <ClayButton.Group spaced>
-                                <ClayButton onClick={onClose} displayType="secondary">
+                                <ClayButton onClick={onCancel} displayType="secondary">
                                     {"Cancel"}
                                 </ClayButton>
                                 <ClayButton onClick={handleSubmission}>{"Submit"}</ClayButton>

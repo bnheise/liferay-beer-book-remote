@@ -3,6 +3,7 @@ import ClayForm, { ClayInput, ClaySelect } from '@clayui/form';
 import { Option } from '../interfaces/option';
 import { getStyles } from '../api/styles';
 import { components } from '../api/schema';
+import { useLiferayContext } from '@toadslop/remote-react-app-toolkit';
 
 type Props = {
     formData: components["schemas"]["Beer"],
@@ -11,13 +12,14 @@ type Props = {
     setSelectedFile: React.Dispatch<React.SetStateAction<File | undefined>>,
     isFilePicked: boolean,
     setIsFilePicked: React.Dispatch<React.SetStateAction<boolean>>,
-    styleListId: string
 }
 
 const AddBeerForm = (props: Props) => {
-    const { styleListId, setSelectedFile, setIsFilePicked, formData, setFormData } = props;
+    const { setSelectedFile, setIsFilePicked, formData, setFormData } = props;
     const [styleOptions, setStyleOptions] = useState<Option[]>();
     const { name, aBV, eBC, iBU, price, brewer, style } = formData;
+    const { properties } = useLiferayContext();
+    const { stylepicklistid } = properties;
 
     const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event && event.target && event.target.files) {
@@ -26,7 +28,7 @@ const AddBeerForm = (props: Props) => {
         }
     };
 
-    useEffect(() => getStyles(styleListId, setStyleOptions), [styleListId]);
+    useEffect(() => getStyles(stylepicklistid, setStyleOptions), [stylepicklistid]);
     useEffect(() => {
         if (formData.style && styleOptions) {
             setFormData({ ...formData, style: { key: styleOptions[0].value } })

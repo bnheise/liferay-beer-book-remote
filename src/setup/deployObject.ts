@@ -1,5 +1,4 @@
 import { objectExists } from "./util";
-import fetch from "node-fetch";
 
 const run = async () => {
   const response = await fetch(

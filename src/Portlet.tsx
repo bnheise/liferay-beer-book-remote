@@ -6,18 +6,23 @@ import { getBeers } from './api/beers';
 import { components } from './api/schema';
 import ClayLoadingIndicator from '@clayui/loading-indicator';
 import BeerCard from './components/BeerCard';
+import { useLiferayMatch } from '@toadslop/remote-react-app-toolkit';
 
-interface Props {
-  folderId: string,
-  repoId: string,
-  styleListId: string,
-}
+interface Props { }
 
-function Portlet({ folderId, repoId, styleListId }: Props) {
+function Portlet(props: Props) {
   const [data, setData] = useState<components["schemas"]["Beer"][]>();
   const [selectedBeer, setSelectedBeer] = useState<components["schemas"]["Beer"]>();
   const [visible, setVisible] = useState(false);
   useEffect(() => { getBeers(setData) }, [])
+  const match = useLiferayMatch("beerbook/:id");
+  useEffect(() => {
+    if (match && data) {
+      const beer = data?.find(item => String(item.id) === String(match.params.id));
+      setSelectedBeer(beer);
+      setVisible(true)
+    }
+  }, [data])
 
   return (
     <ClayLayout.ContainerFluid view>
@@ -28,7 +33,7 @@ function Portlet({ folderId, repoId, styleListId }: Props) {
           data.map((item: any, index: number) => <BeerCard setSelectedBeer={setSelectedBeer} setVisible={setVisible} key={index} item={item} />) :
           <ClayLoadingIndicator />}
       </div>
-      <AddBeerModal styleListId={styleListId} selectedBeer={selectedBeer} folderId={folderId} repoId={repoId} setData={setData} data={data} setVisible={setVisible} visible={visible} />
+      <AddBeerModal selectedBeer={selectedBeer} setData={setData} data={data} setVisible={setVisible} visible={visible} />
     </ClayLayout.ContainerFluid>
   );
 }
